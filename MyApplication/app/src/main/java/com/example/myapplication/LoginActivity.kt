@@ -66,28 +66,28 @@ class LoginActivity : AppCompatActivity() {
                     moveMainPage(task.result?.user)
                 }else{
                     // Show the error message
-                    Toast.makeText(this, task.exception!!.message, Toast.LENGTH_LONG).show()
+                    Toast.makeText(this, task.exception?.message, Toast.LENGTH_LONG).show()
                 }
             }
     }
 
-    fun signinAndSignup(){
+    fun signinAndSignup(){ //동작안함
         auth?.createUserWithEmailAndPassword(email_edittext.text.toString(), password_edittext.text.toString())
             ?.addOnCompleteListener {
                     task ->
-                if(task.isSuccessful){
-                    // Creating a user account
-                    moveMainPage(task.result?.user)
-                }else if(task.exception?.message.isNullOrEmpty()){
-                    // Show the error message
-                    Toast.makeText(this, task.exception!!.message, Toast.LENGTH_LONG).show()
-                }else{
-                    // Login if you have account
-                    signinEmail()
-                }
-            }
+                        if(task.isSuccessful){
+                            // Creating a user account
+                            moveMainPage(task.result?.user)
+                        }else if(!task.exception?.message.isNullOrEmpty()){
+                            // Show the error message
+                            Toast.makeText(this, task.exception?.message, Toast.LENGTH_LONG).show()
+                        }else{
+                            // Login if you have account
+                            signinEmail()
+                        }
+                    }
     }
-    fun signinEmail(){
+    fun signinEmail(){ //로그인 코드 동작안함
         auth?.signInWithEmailAndPassword(email_edittext.text.toString(), password_edittext.text.toString())
             ?.addOnCompleteListener {
                     task ->
@@ -96,11 +96,11 @@ class LoginActivity : AppCompatActivity() {
                     moveMainPage(task.result?.user)
                 }else{
                     // Show the error message
-                    Toast.makeText(this, task.exception!!.message, Toast.LENGTH_LONG).show()
+                    Toast.makeText(this, task.exception?.message, Toast.LENGTH_LONG).show()
                 }
             }
     }
-    fun moveMainPage(user:FirebaseUser?){
+    fun moveMainPage(user:FirebaseUser?){ //동작함
         if(user!=null){
             startActivity(Intent(this, MainActivity::class.java))
         }
