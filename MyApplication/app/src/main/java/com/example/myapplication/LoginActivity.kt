@@ -146,7 +146,7 @@ class LoginActivity : AppCompatActivity() {
             }
     }
 
-    fun signinAndSignup(){ //동작안함
+    fun signinAndSignup(){
         auth?.createUserWithEmailAndPassword(email_edittext.text.toString(), password_edittext.text.toString())
             ?.addOnCompleteListener {
                     task ->
@@ -162,7 +162,7 @@ class LoginActivity : AppCompatActivity() {
                         }
                     }
     }
-    fun signinEmail(){ //로그인 코드 동작안함
+    fun signinEmail(){ //로그인 코드
         auth?.signInWithEmailAndPassword(email_edittext.text.toString(), password_edittext.text.toString())
             ?.addOnCompleteListener {
                     task ->
@@ -175,7 +175,7 @@ class LoginActivity : AppCompatActivity() {
                 }
             }
     }
-    fun moveMainPage(user:FirebaseUser?){ //동작함
+    fun moveMainPage(user:FirebaseUser?){
         if(user!=null){
             startActivity(Intent(this, MainActivity::class.java))
         }
