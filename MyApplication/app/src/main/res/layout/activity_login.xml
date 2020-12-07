@@ -12,7 +12,7 @@
         android:layout_above="@+id/signin_layout"
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="242dp"
-        android:src="@drawable/logo_title" />
+        android:src="@drawable/logo_logo" />
 
     <LinearLayout
         android:id="@+id/signin_layout"

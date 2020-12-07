@@ -175,9 +175,17 @@ class LoginActivity : AppCompatActivity() {
                 }
             }
     }
+    override fun onStart() {
+        super.onStart()
+
+        //자동 로그인 설정
+        moveMainPage(auth?.currentUser)
+
+    }
     fun moveMainPage(user:FirebaseUser?){
         if(user!=null){
             startActivity(Intent(this, MainActivity::class.java))
+            finish()
         }
     }
 }
