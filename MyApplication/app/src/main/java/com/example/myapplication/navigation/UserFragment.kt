@@ -18,7 +18,9 @@ import com.example.myapplication.MainActivity
 import com.example.myapplication.R
 import com.example.myapplication.navigation.model.ContentDTO
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.FirebaseFirestoreException
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_user.view.*
 
@@ -29,6 +31,9 @@ class UserFragment : Fragment(){
     var uid :String? = null
     var auth : FirebaseAuth?= null
     var currentUserUid: String? = null
+    companion object {
+        var PICK_PROFILE_FROM_ALBUM = 10
+    }
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         fragmentView = LayoutInflater.from(activity).inflate(R.layout.fragment_user,container,false)
         uid = arguments?.getString("destinationUid")
@@ -55,12 +60,28 @@ class UserFragment : Fragment(){
             mainactivity?.toolbar_username?.visibility =View.VISIBLE
             mainactivity?.toolbar_btn_back?.visibility =View.VISIBLE
         }
-
-
         fragmentView?.account_recyclerview?.adapter = UserFragmentRecyclerViewAdapter()
         fragmentView?.account_recyclerview?.layoutManager = GridLayoutManager(activity!!,3)
+
+        fragmentView?.account_iv_profile?.setOnClickListener {
+            var photoPickerIntent = Intent(Intent.ACTION_PICK)
+            photoPickerIntent.type = "image/*"
+            activity?.startActivityForResult(photoPickerIntent, PICK_PROFILE_FROM_ALBUM)
+        }
+        getProfileImage()
         return fragmentView
     }
+    fun getProfileImage(){//올린 profile 이미지 받는 기능
+
+        firestore?.collection("profileImages")?.document(uid!!)?.addSnapshotListener { documentSnapshot, firebaseFirestoreException ->
+            if(documentSnapshot == null) return@addSnapshotListener
+            if(documentSnapshot.data !=null){
+                var url = documentSnapshot?.data!!["image"]
+                Glide.with(activity!!).load(url).apply(RequestOptions().circleCrop()).into(fragmentView?.account_iv_profile!!)
+            }
+        }
+    }
+
     inner class UserFragmentRecyclerViewAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>(){
         var contentDTOs : ArrayList<ContentDTO> = arrayListOf()
 
