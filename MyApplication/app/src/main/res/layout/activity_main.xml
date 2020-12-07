@@ -58,8 +58,8 @@
         android:layout_height="match_parent"
         android:layout_above="@id/nav_division"
         android:layout_below="@id/toolbar_division"
-        android:layout_marginTop="25dp"
-        android:layout_marginBottom="25dp"></FrameLayout>
+        android:layout_marginTop="-35dp"
+        android:layout_marginBottom="35dp"></FrameLayout>
 
     <LinearLayout
         android:id="@+id/nav_division"
