@@ -1,4 +1,4 @@
-package com.example.myapplication.navigation.model
+package com.example.myapplication.model
 
 import java.util.HashMap
 

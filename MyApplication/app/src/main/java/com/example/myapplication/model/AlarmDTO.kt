@@ -1,4 +1,4 @@
-package com.example.myapplication.navigation.model
+package com.example.myapplication.model
 
 data class AlarmDTO (
     var destinationUid: String? = null,
