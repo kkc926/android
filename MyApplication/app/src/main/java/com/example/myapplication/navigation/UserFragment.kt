@@ -18,6 +18,7 @@ import com.bumptech.glide.request.RequestOptions
 import com.example.myapplication.LoginActivity
 import com.example.myapplication.MainActivity
 import com.example.myapplication.R
+import com.example.myapplication.model.AlarmDTO
 import com.example.myapplication.model.ContentDTO
 import com.example.myapplication.model.FollowDTO
 import com.example.myapplication.navigation.GridFragment.UserFragmentRecyclerViewAdapter
@@ -146,6 +147,7 @@ class UserFragment : Fragment(){
                 followDTO = FollowDTO()
                 followDTO!!.followerCount = 1
                 followDTO!!.followers[currentUserUid!!] = true
+                followerAlarm(uid!!)
 
 
                 transaction.set(tsDocFollower, followDTO!!)
@@ -160,13 +162,21 @@ class UserFragment : Fragment(){
 
                 followDTO!!.followerCount = followDTO!!.followerCount + 1
                 followDTO!!.followers[currentUserUid!!] = true
+                followerAlarm((uid!!))
 
             }
             transaction.set(tsDocFollower, followDTO!!)
             return@runTransaction
         }
     }
-
+    fun followerAlarm(destinationUid : String){
+        var alarmDTO = AlarmDTO()
+        alarmDTO.destinationUid = destinationUid
+        alarmDTO.userId = auth?.currentUser?.email
+        alarmDTO.uid = auth?.currentUser?.uid
+        alarmDTO.timestamp = System.currentTimeMillis()
+        FirebaseFirestore.getInstance().collection("alarms").document().set(alarmDTO)
+    }
     fun getProfileImage(){//올린 profile 이미지 받는 기능
 
         firestore?.collection("profileImages")?.document(uid!!)?.addSnapshotListener { documentSnapshot, firebaseFirestoreException ->
