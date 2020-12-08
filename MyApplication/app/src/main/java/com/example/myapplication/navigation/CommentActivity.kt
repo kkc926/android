@@ -56,6 +56,7 @@ class CommentActivity : AppCompatActivity() {
                 .collection("comments")
                 .orderBy("timestamp")
                 .addSnapshotListener { querySnapshot, firebaseFirestoreException ->
+                    comments.clear()
                     if(querySnapshot == null)return@addSnapshotListener
 
                     for(snapshot in querySnapshot.documents!!){
