@@ -1,5 +1,6 @@
 package com.example.myapplication.navigation
 
+import android.content.Intent
 import com.example.myapplication.R
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -97,11 +98,16 @@ class DetailViewFragment : Fragment() {
                 activity?.supportFragmentManager?.beginTransaction()?.replace(R.id.main_content,fragment)?.commit()
 
             }
+        viewholder.detailviewitem_comment_imageview.setOnClickListener { v ->
+            var intent = Intent(v.context,CommentActivity::class.java)
+            intent.putExtra("contentUid",contentUidList[p1])
+            startActivity(intent)
 
+        }
         }
 
 
-        private fun favoriteEvent(position: Int) { //좋아요버튼
+        fun favoriteEvent(position: Int) { //좋아요버튼
             var tsDoc = firestore?.collection("images")?.document(contentUidList[position])
             firestore?.runTransaction { transaction ->
 
