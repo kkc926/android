@@ -47,8 +47,9 @@ class UserFragment : Fragment(){
         currentUserUid = auth?.currentUser?.uid
 
         if(uid == currentUserUid){
-            //mypage
+//            //mypage
             fragmentView?.account_btn_follow_signout?.text = getString(R.string.signout)
+//            fragmentView?.account_btn_follow_signout?.text = getString(R.string.signout)
             fragmentView?.account_btn_follow_signout?.setOnClickListener {
                 activity?.finish()
                 startActivity(Intent(activity,LoginActivity::class.java))
@@ -56,6 +57,8 @@ class UserFragment : Fragment(){
             }
         }else{//otheruserpage
             fragmentView?.account_btn_follow_signout?.text = getString(R.string.follow)
+
+//            fragmentView?.account_btn_follow_signout?.text = getString(R.string.follow)
             var mainactivity=(activity as MainActivity)
             mainactivity?.toolbar_username?.text=arguments?.getString("userid")
             mainactivity?.toolbar_btn_back?.setOnClickListener {

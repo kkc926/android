@@ -16,12 +16,16 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.FirebaseStorage.getInstance
 import com.google.firebase.storage.UploadTask
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_alarm.*
 import java.io.BufferedReader
 import java.io.InputStreamReader
 import java.net.URL
+import java.security.Policy.getInstance
+import java.util.Calendar.getInstance
+import java.util.Currency.getInstance
 
 class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemSelectedListener {
 
@@ -74,6 +78,8 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        bottom_navigation.selectedItemId = R.id.action_home
         bottom_navigation.setOnNavigationItemSelectedListener(this)
         ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE),1)
 
@@ -89,8 +95,8 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
         if(requestCode ==UserFragment.PICK_PROFILE_FROM_ALBUM && resultCode == Activity.RESULT_OK){
             var imageUri = data?.data
             var uid = FirebaseAuth.getInstance().currentUser!!.uid
-            var storageRef = FirebaseStorage.getInstance().reference.child("userProfileImages").child(uid!!)
-            storageRef.putFile(imageUri!!).continueWithTask{task: Task<UploadTask.TaskSnapshot>->
+            var storageRef = FirebaseStorage.getInstance().reference.child("userProfileImages").child(uid)
+            storageRef.putFile(imageUri!!).continueWithTask{_: Task<UploadTask.TaskSnapshot>->
                  return@continueWithTask storageRef.downloadUrl
             }.addOnSuccessListener { uri->
                 var map = HashMap<String,Any>()
