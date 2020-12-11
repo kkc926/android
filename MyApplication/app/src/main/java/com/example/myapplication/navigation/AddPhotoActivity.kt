@@ -17,15 +17,11 @@ import java.util.*
 
 
 class AddPhotoActivity : AppCompatActivity() {
-
     val PICK_IMAGE_FROM_ALBUM = 0
-
     var photoUri: Uri? = null
-
     var storage: FirebaseStorage? = null
     var firestore: FirebaseFirestore? = null //데이터베이스 접근 권한
     private var auth: FirebaseAuth? = null
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_photo)
@@ -76,6 +72,7 @@ class AddPhotoActivity : AppCompatActivity() {
     fun contentUpload(){
         progress_bar.visibility = View.VISIBLE
 
+
         val timeStamp = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
         val imageFileName = "IMAGE_" + timeStamp + "_.png"
         val storageRef = storage?.reference?.child("images")?.child(imageFileName)
@@ -83,10 +80,8 @@ class AddPhotoActivity : AppCompatActivity() {
 
         storageRef?.putFile(photoUri!!)?.addOnSuccessListener {
             storageRef.downloadUrl.addOnSuccessListener { uri ->
-
                 //시간 생성
                 var contentDTO = ContentDTO()
-
                 //이미지 주소
                 contentDTO.imageUrl = uri!!.toString()
                 //유저의 UID

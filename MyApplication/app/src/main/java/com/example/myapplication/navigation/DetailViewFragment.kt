@@ -38,6 +38,9 @@ class DetailViewFragment : Fragment() {
                 firestore?.collection("images")?.orderBy("timestamp")?.addSnapshotListener { querySnapshot, firebaseFirestoreException ->
                     contentDTOs.clear()
                     contentUidList.clear()
+
+                if(querySnapshot ==null) return@addSnapshotListener //로그아웃때 크러쉬발생하여 넣은 코드
+
                 for(snapshot in querySnapshot!!.documents){
                     var item = snapshot.toObject(ContentDTO::class.java)
                     contentDTOs.add(item!!)
@@ -67,12 +70,15 @@ class DetailViewFragment : Fragment() {
 
             //User ID
             viewholder.detailviewitem_profile_textview.text = contentDTOs!![p1].userId
-            Glide.with(p0.itemView.context).load(contentDTOs!![p1].imageUrl).into(viewholder.detailviewitem_imageview_content)
             //Image
-            viewholder.detailviewitem_explain_textview.text=contentDTOs!![p1].explain
+            Glide.with(p0.itemView.context).load(contentDTOs!![p1].imageUrl).into(viewholder.detailviewitem_imageview_content)
             //Explain of content
+            viewholder.detailviewitem_explain_textview.text=contentDTOs!![p1].explain
 
+            //likes
             viewholder.detailviewitem_favoritecounter_textview.text="Likes"+contentDTOs!![p1].favoriteCount
+
+
 
             Glide.with(p0.itemView.context).load(contentDTOs!![p1].imageUrl).into(viewholder.detailviewitem_profile_image)
 
@@ -81,15 +87,15 @@ class DetailViewFragment : Fragment() {
             //좋아요눌렀을때 이벤트
             viewholder.detailviewitem_favorite_imageview.setOnClickListener {
                 favoriteEvent(p1) }
-
+            //페이지 로딩
             if (contentDTOs!![p1].favorites.containsKey(uid)) {
-
+            //like status
             viewholder.detailviewitem_favorite_imageview.setImageResource(R.drawable.ic_favorite)
 
-             } else {
+             } else {//unlike status
 
             viewholder.detailviewitem_favorite_imageview.setImageResource(R.drawable.ic_favorite_border)
-        }
+        }//프로필 이미지 눌렀을때
             viewholder.detailviewitem_profile_image.setOnClickListener {
                 var fragment=UserFragment()
                 var bundle = Bundle()

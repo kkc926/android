@@ -48,27 +48,41 @@ class UserFragment : Fragment(){
 
         if(uid == currentUserUid){
 //            //mypage
-            fragmentView?.account_btn_follow_signout?.text = getString(R.string.signout)
 //            fragmentView?.account_btn_follow_signout?.text = getString(R.string.signout)
+
+            fragmentView?.account_btn_follow_signout?.text = getString(R.string.signout)
             fragmentView?.account_btn_follow_signout?.setOnClickListener {
                 activity?.finish()
                 startActivity(Intent(activity,LoginActivity::class.java))
                 auth?.signOut()
-            }
-        }else{//otheruserpage
-            fragmentView?.account_btn_follow_signout?.text = getString(R.string.follow)
 
-//            fragmentView?.account_btn_follow_signout?.text = getString(R.string.follow)
-            var mainactivity=(activity as MainActivity)
-            mainactivity?.toolbar_username?.text=arguments?.getString("userid")
-            mainactivity?.toolbar_btn_back?.setOnClickListener {
-                mainactivity.bottom_navigation.selectedItemId = R.id.action_home
             }
-            mainactivity?.toolbar_title_image?.visibility=View.GONE
-            mainactivity?.toolbar_username?.visibility =View.VISIBLE
-            mainactivity?.toolbar_btn_back?.visibility =View.VISIBLE
+            var mainactivity=(activity as MainActivity) //#
+            mainactivity?.toolbar_username?.text=arguments?.getString("userId") //#
+            mainactivity?.toolbar_btn_back?.setOnClickListener { //#
+                mainactivity.bottom_navigation.selectedItemId = R.id.action_home //#
+
+            }
+            mainactivity?.toolbar_title_image?.visibility=View.VISIBLE //#
+            mainactivity?.toolbar_username?.visibility =View.GONE //#
+            mainactivity?.toolbar_btn_back?.visibility =View.VISIBLE //#
             fragmentView?.account_btn_follow_signout?.setOnClickListener {
                 requestFollow()
+            }
+        }else{//otheruserpage
+//            fragmentView?.account_btn_follow_signout?.text = getString(R.string.follow)
+
+            fragmentView?.account_btn_follow_signout?.text = getString(R.string.follow)
+            var mainactivity=(activity as MainActivity)
+            mainactivity?.toolbar_username?.text=arguments?.getString("userId") //#
+            mainactivity?.toolbar_btn_back?.setOnClickListener { //#
+                mainactivity.bottom_navigation.selectedItemId = R.id.action_home //#
+            }
+            mainactivity?.toolbar_title_image?.visibility=View.VISIBLE //#
+            mainactivity?.toolbar_username?.visibility =View.GONE //#
+            mainactivity?.toolbar_btn_back?.visibility =View.VISIBLE //#
+            fragmentView?.account_btn_follow_signout?.setOnClickListener { //#
+                requestFollow() //#
             }
         }
         fragmentView?.account_recyclerview?.adapter = UserFragmentRecyclerViewAdapter()
@@ -208,10 +222,10 @@ class UserFragment : Fragment(){
             }
         }
 
-        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-            var width = resources.displayMetrics.widthPixels / 3
+        override fun onCreateViewHolder(p0: ViewGroup, p1: Int): RecyclerView.ViewHolder {
+            var width = resources.displayMetrics.widthPixels / 3 //폭에 1/3크기의 정사각형 이미지가 만들어짐
 
-            var imageview = ImageView(parent.context)
+            var imageview = ImageView(p0.context)
             imageview.layoutParams = LinearLayoutCompat.LayoutParams(width,width)
             return CustomViewHolder(imageview)
         }
@@ -224,9 +238,9 @@ class UserFragment : Fragment(){
             return contentDTOs.size
         }
 
-        override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-            var imageview = (holder as CustomViewHolder).imageview
-            Glide.with(holder.itemView.context).load(contentDTOs[position].imageUrl).apply(RequestOptions().centerCrop()).into(imageview)
+        override fun onBindViewHolder(p0: RecyclerView.ViewHolder, p1: Int) {
+            var imageview = (p0 as CustomViewHolder).imageview
+            Glide.with(p0.itemView.context).load(contentDTOs[p1].imageUrl).apply(RequestOptions().centerCrop()).into(imageview)
         }
 
     }
