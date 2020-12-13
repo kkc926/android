@@ -62,23 +62,23 @@ class LoginActivity : AppCompatActivity() {
 
     }
 
-    fun printHashKey(){//(페이스북 해시값 가져오는 함수)
-        try {
-            val info = packageManager.getPackageInfo(packageName, PackageManager.GET_SIGNING_CERTIFICATES)
-            for (signature in info.signatures) {
-                val md = MessageDigest.getInstance("SHA")
-                md.update(signature.toByteArray())
-                val hashKey = String(Base64.encode(md.digest(),0))
-                Log.i("TAG", "printHashKey() Hash key:$hashKey=")
-            }
-        }catch (e:NoSuchAlgorithmException){
-            Log.e("TAG","printHashKey()",e)
-        }
-        catch (e: Exception) {
-            Log.e("TAG", "printHashKey()", e)
-        }
-
-    }
+//    fun printHashKey(){//(페이스북 해시값 가져오는 함수)
+//        try {
+//            val info = packageManager.getPackageInfo(packageName, PackageManager.GET_SIGNING_CERTIFICATES)
+//            for (signature in info.signatures) {
+//                val md = MessageDigest.getInstance("SHA")
+//                md.update(signature.toByteArray())
+//                val hashKey = String(Base64.encode(md.digest(),0))
+//                Log.i("TAG", "printHashKey() Hash key:$hashKey=")
+//            }
+//        }catch (e:NoSuchAlgorithmException){
+//            Log.e("TAG","printHashKey()",e)
+//        }
+//        catch (e: Exception) {
+//            Log.e("TAG", "printHashKey()", e)
+//        }
+//
+//    }
     fun googleLogin(){
         var signInIntent = googleSignInClient?.signInIntent
         startActivityForResult(signInIntent, GOOGLE_LOGIN_CODE)
