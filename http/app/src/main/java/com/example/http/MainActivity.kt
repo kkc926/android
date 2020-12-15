@@ -23,7 +23,7 @@ class MainActivity : AppCompatActivity() {
 
     inner class NetworkThread : Thread(){
         override fun run() {
-            var site = "https://zizqnx33mi.execute-api.us-east-2.amazonaws.com/dev/user/kmj1995kr@gmail.com"
+            var site = "https://zizqnx33mi.execute-api.us-east-2.amazonaws.com/dev/categories"
             var url = URL(site)
             var conn = url.openConnection()
 
